@@ -13,6 +13,8 @@ if (empty($_SESSION['username']) && empty($_SESSION['password'])){
 else {
     if ($_GET['act']=='insert') {
         if (isset($_POST['simpan'])) {
+
+            $kode_barang_ex     = mysqli_real_escape_string($mysqli, trim($_POST['kode_barang_ex']));
             // ambil data hasil submit dari form
             $kode_transaksi = mysqli_real_escape_string($mysqli, trim($_POST['kode_transaksi']));
             $tanggal         = mysqli_real_escape_string($mysqli, trim($_POST['tanggal_keluar']));
@@ -30,7 +32,10 @@ else {
             // perintah query untuk menyimpan data ke tabel barang masuk
             $query = mysqli_query($mysqli, "INSERT INTO db_barang_keluar(kode_transaksi,tanggal_keluar,kode_barang,jumlah_keluar,created_user) 
                                             VALUES('$kode_transaksi','$tanggal_keluar','$kode_barang','$jumlah_keluar','$created_user')")
-                                            or die('Ada kesalahan pada query insert : '.mysqli_error($mysqli));    
+                                            or die('Ada kesalahan pada query insert : '.mysqli_error($mysqli));
+              
+            $query2 = mysqli_query($mysqli, "DELETE FROM `db_barang_masuk` WHERE `kode_transaksi` = '$kode_barang_ex' ")
+                                            or die('Ada kesalahan pada query insert : '.mysqli_error($mysqli));
 
             // cek query
             if ($query) {
@@ -46,5 +51,4 @@ else {
             }   
         }   
     }
-}       
-?>
+}

@@ -107,13 +107,14 @@ if ($_GET['form']=='add') { ?>
                       $query_barang = mysqli_query($mysqli, "SELECT kode_barang, nama_barang FROM db_barang ORDER BY nama_barang ASC")
                                                             or die('Ada kesalahan pada query tampil barang: '.mysqli_error($mysqli));
                       while ($data_barang = mysqli_fetch_assoc($query_barang)) {
+                        
                         echo"<option value=\"$data_barang[kode_barang]\"> $data_barang[kode_barang] | $data_barang[nama_barang] </option>";
                       }
                     ?>
                   </select>
                 </div>
               </div>
-              
+          
               <span id='stok'>
               <div class="form-group">
                 <label class="col-sm-2 control-label">Stok</label>

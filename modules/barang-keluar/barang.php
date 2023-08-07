@@ -15,6 +15,7 @@ if(isset($_POST['dataidbarang'])) {
   $data = mysqli_fetch_assoc($query);
 
   $stok   = $data['stok'];
+  $kode   = $data['kode_barang'];
   $satuan = $data['satuan'];
 
 	if($stok != '') {
@@ -27,7 +28,8 @@ if(isset($_POST['dataidbarang'])) {
                   </div>
                 </div>
               </div>";
-	} else {
+	} 
+  else {
 		echo "<div class='form-group'>
                 <label class='col-sm-2 control-label'>Stok</label>
                 <div class='col-sm-5'>
@@ -37,6 +39,24 @@ if(isset($_POST['dataidbarang'])) {
                   </div>
                 </div>
               </div>";
-	}		
+	}	
+  if($stok != ''){
+    echo "<div class='form-group'>
+    <label class='col-sm-2 control-label'>Expired</label>
+    <div class='col-sm-5'>
+      <select class='chosen-select' name='kode_barang_ex' data-placeholder='-- Pilih Barang --' onchange='tampil_baranga(this)' autocomplete='off' required>
+        <option value=''></option>";
+          $query_barang_masuk = mysqli_query($mysqli, "SELECT kode_barang, expired, kode_transaksi FROM db_barang_masuk WHERE kode_barang = '$kode' ORDER BY expired ASC")
+                                                or die("Ada kesalahan pada query tampil barang: ".mysqli_error($mysqli));
+          while ($data_barang_masuk = mysqli_fetch_assoc($query_barang_masuk)) {
+           
+            echo "<option value=$data_barang_masuk[kode_transaksi]> $data_barang_masuk[kode_barang] | $data_barang_masuk[expired] | $data_barang_masuk[kode_transaksi]</option>";
+          }
+        "
+      </select>
+    </div>
+  </div>";
+  }
+
 }
 ?> 
